@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html ng-app="georanker">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"></meta>
+	<title>GeoRanker</title>
+
+	<!--Importações do angular-->	
+	<script src="libs/angular/angular.min.js" type="text/javascript"></script>
+	<script src="libs/angular-locale-pt-br/angular-locale_pt-br.js" type="text/javascript"></script>
+
+	<!--Importação do materialize-->
+	<!--jquery-->
+	<script src="libs/jquery/dist/jquery.min.js" type="text/javascript" ></script>
+	<!--JavaScript-->
+	<script src="libs/materialize/dist/js/materialize.min.js" type="text/javascript"></script>
+	<!--Folha de estilo-->
+	<link href="libs/materialize/dist/css/materialize.min.css" rel="stylesheet" type="text/css">
+	
+	<!--icones-->
+	<link href="libs/material-design-icons-dist/material-icons.css" rel="stylesheet">	
+	<!--Importação da app-->
+	<script src="app.js" type="text/javascript"></script>
+	
+	<!--Serviços-->
+	<script src="js/service/geoRankerService.js" type="text/javascript"></script>					
+
+	<!--Arquivo de configuração de url-->
+	<script src="js/baseUrl.js" type="text/javascript"></script>
+	<script src="js/initializeJqueryMaterialize.js" type="text/javascript"></script>
+
+	<!--Style sheet-->
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body ng-controller="indexController">	
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<form ng-submit="listReports(email, key)">
+							<span class="card-title center">GeoRanker Data</span>
+							<div class="row">								
+								<div class="input-field col s6">
+									<input id="email" type="text" class="validate" ng-model="email">
+									<label for="email">E-mail</label>
+								</div>
+
+								<div class="input-field col s6">
+									<input id="key" type="text" class="validate" ng-model="key">
+									<label for="key">APIKEY</label>
+								</div>
+							</div>
+							<div class="card-action">
+								<div class="row">								
+									<button class="btn waves-effect waves-light grey right" type="submit" name="action">Submit
+										<i class="material-icons right">send</i>
+									</button>
+								</div>							
+							</div>
+						</form>
+					</div>				
+				</div>
+
+				<div class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<form ng-submit="createReport(data)">
+							<span class="card-title center">GeoRanker Create Report</span>
+							<div class="row">								
+								<div class="input-field col s6">
+									<input id="searchengines" type="text" class="validate" placeholder="Ex. google, googlelocal, yahoo, bing" ng-model="data.searchengines">
+									<label for="searchengines">Search Engines</label>
+								</div>
+
+								<div class="input-field col s6">
+									<input id="type" type="text" class="validate" placeholder="Ex. ranktracker" ng-model="data.type">
+									<label for="type">Type</label>
+								</div>
+
+								<div class="input-field col s6">
+									<input id="countries" type="text" class="validate" placeholder="Ex. Brasil, Argentina" ng-model="data.countries">
+									<label for="countries">Countries</label>
+								</div>
+
+								<div class="input-field col s6">
+									<input id="keywords" type="text" class="validate" placeholder="Ex. Google, Facebook" ng-model="data.keywords">
+									<label for="keywords">Keywords</label>
+								</div>
+
+							</div>
+							<div class="card-action">
+								<div class="row">								
+									<button class="btn waves-effect waves-light grey right" type="submit" name="action">Submit
+										<i class="material-icons right">send</i>
+									</button>
+								</div>							
+							</div>
+						</form>
+					</div>				
+				</div>
+
+				<div id="reports" class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<form ng-submit="listReports(email, key)">
+							<span class="card-title center">GeoRanker Reports</span>
+							<table class="responsive-table table-inline">
+								<thead>
+									<tr>                                        
+										<th>Date Created / Generated</th>
+										<th>Keywords</th>
+										<th>Urls</th>
+										<th>Countries</th>
+										<th>Regions</th>
+										<th>Search Engines</th>
+									</tr>
+								</thead>        
+								<tbody>
+									<tr ng-repeat="report in reports">
+										<td>{{report.date_created}}<br/>{{report.date_generated}}</td>
+										<td>
+											<p ng-repeat="key in report.keywords">
+												{{key}}		
+											</p>
+										</td>
+										<td>
+											<p ng-repeat="url in report.urls">
+												{{url.url}}		
+											</p>
+										</td>
+										<td>
+											<p ng-repeat="country in report.countries">
+												{{country}}	
+											</p>
+										</td>
+										<td>
+											<p ng-repeat="region in report.regions">
+												{{region}}
+											</p>
+										</td>
+										<td>
+											<p ng-repeat="searchengine in report.searchengines">								
+												{{searchengine}}
+											</p>
+										</td>
+									</tr>          
+								</tbody>
+							</table>
+						</form>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<div ng-show="pageLoading" ng-include="'pages/loading.html'"></div>
+	</body>
+	</html>
